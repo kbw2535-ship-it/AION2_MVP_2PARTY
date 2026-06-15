@@ -402,11 +402,13 @@ export default function SchedulePage() {
                               border: isSel ? `2px solid ${dungeonInfo.color}` : '1px solid rgba(255,255,255,0.06)',
                               transition: 'background 0.1s', position: 'relative',
                             }}>
-                              {showHeat && !isSel && count > 0 && (
+                              {showHeat && count > 0 && (
                                 <span style={{
                                   position: 'absolute', inset: 0,
                                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                  fontSize: '0.5rem', color: 'rgba(255,255,255,0.8)',
+                                  fontSize: '0.62rem', fontWeight: 700,
+                                  color: isSel ? '#fff' : 'rgba(255,255,255,0.9)',
+                                  textShadow: isSel ? '0 0 4px rgba(0,0,0,0.8)' : 'none',
                                 }}>{count}</span>
                               )}
                             </div>
@@ -515,6 +517,75 @@ export default function SchedulePage() {
                 })}
               </div>
             )}
+
+            {/* 전체 결과표 */}
+            <h3 style={{
+              fontFamily: "'Cinzel', serif", fontSize: '0.85rem', color: '#C9A84C',
+              letterSpacing: '0.15em', marginBottom: '1rem', textTransform: 'uppercase',
+            }}>전체 결과표</h3>
+            <div style={{ overflowY: 'auto', maxHeight: '60vh', width: '100%', marginBottom: '2.5rem', position: 'relative' }}>
+              <table style={{ borderCollapse: 'collapse', width: '100%', tableLayout: 'fixed' }}>
+                <thead>
+                  <tr>
+                    <th style={{
+                      width: '18%', padding: '0.5rem 0.25rem',
+                      fontFamily: "'Cinzel', serif", fontSize: '0.75rem',
+                      color: '#A8A8B8', borderBottom: '2px solid rgba(201,168,76,0.2)',
+                      position: 'sticky', top: 0, zIndex: 10, background: '#0F0F1A', textAlign: 'right',
+                    }}>시간</th>
+                    {DAYS.map((d, i) => (
+                      <th key={d} style={{
+                        padding: '0.5rem 0', fontFamily: "'Cinzel', serif", fontSize: '0.8rem', fontWeight: 700,
+                        color: i === 3 || i === 4 ? '#C9A84C' : '#A8A8B8',
+                        borderBottom: '2px solid rgba(201,168,76,0.2)', textAlign: 'center',
+                        width: `${82/7}%`,
+                        position: 'sticky', top: 0, zIndex: 10, background: '#0F0F1A',
+                      }}>{d}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {TIME_SLOTS.map(time => {
+                    const hasAny = DAY_KEYS.some(day => (tally.tally[`${day}-${time}`] ?? 0) > 0);
+                    return (
+                      <tr key={time} style={{ background: hasAny ? 'rgba(201,168,76,0.03)' : 'transparent' }}>
+                        <td style={{
+                          padding: '1px 0.25rem', fontFamily: 'monospace', fontSize: '0.78rem',
+                          fontWeight: 700, color: '#C9A84C', textAlign: 'right',
+                          borderRight: '2px solid rgba(201,168,76,0.15)', whiteSpace: 'nowrap',
+                        }}>{time}</td>
+                        {DAY_KEYS.map(day => {
+                          const key = `${day}-${time}`;
+                          const count = tally.tally[key] ?? 0;
+                          const heat = count > 0 ? count / Math.max(totalVoters, 1) : 0;
+                          return (
+                            <td key={day} style={{ padding: '1px' }}>
+                              <div style={{
+                                height: 28, borderRadius: 2,
+                                background: count > 0
+                                  ? `rgba(201,168,76,${0.12 + heat * 0.75})`
+                                  : 'rgba(255,255,255,0.03)',
+                                border: count > 0 ? '1px solid rgba(201,168,76,0.2)' : '1px solid rgba(255,255,255,0.04)',
+                                position: 'relative',
+                              }}>
+                                {count > 0 && (
+                                  <span style={{
+                                    position: 'absolute', inset: 0,
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    fontSize: '0.65rem', fontWeight: 700,
+                                    color: heat > 0.6 ? '#000' : '#F0F0F8',
+                                  }}>{count}</span>
+                                )}
+                              </div>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
 
             <h3 style={{
               fontFamily: "'Cinzel', serif", fontSize: '0.85rem', color: '#C9A84C',
