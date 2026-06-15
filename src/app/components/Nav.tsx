@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const navItems = [
   { id: 'hero',     label: '홈' },
@@ -52,13 +53,13 @@ export default function Nav() {
         </button>
 
         {/* Nav links */}
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
           {navItems.map(item => (
             <button key={item.id} onClick={() => scrollTo(item.id)} style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              padding: '0.4rem 1rem',
+              padding: '0.4rem 0.85rem',
               fontFamily: "'Cinzel', serif",
-              fontSize: '0.78rem', letterSpacing: '0.08em',
+              fontSize: '0.75rem', letterSpacing: '0.08em',
               color: active === item.id ? '#C9A84C' : '#A8A8B8',
               borderBottom: active === item.id ? '1px solid #C9A84C' : '1px solid transparent',
               transition: 'all 0.2s',
@@ -66,6 +67,25 @@ export default function Nav() {
               {item.label}
             </button>
           ))}
+          <div style={{ width: 1, height: 16, background: 'rgba(201,168,76,0.2)', margin: '0 0.5rem' }} />
+          <Link href="/schedule" style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: '0.75rem', letterSpacing: '0.08em',
+            color: '#2A6BAC', textDecoration: 'none',
+            padding: '0.3rem 0.85rem',
+            border: '1px solid rgba(42,107,172,0.3)',
+            borderRadius: 2,
+            transition: 'all 0.2s',
+          }}>⏰ 시간투표</Link>
+          <Link href="/admin" style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: '0.75rem', letterSpacing: '0.08em',
+            color: '#C9A84C', textDecoration: 'none',
+            padding: '0.3rem 0.85rem',
+            border: '1px solid rgba(201,168,76,0.25)',
+            borderRadius: 2,
+            transition: 'all 0.2s',
+          }}>⚙ 관리</Link>
         </div>
       </div>
     </nav>
