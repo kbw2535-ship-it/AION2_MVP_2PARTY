@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --void-black: #0A0A0F;
+  --abyss: #0F0F1A;
+  --deep: #13131F;
+  --surface: #1A1A2E;
+  --surface-2: #22223A;
+  --legion-gold: #C9A84C;
+  --gold-dim: #8A6F2E;
+  --gold-bright: #E8C96A;
+  --aion-blue: #2A6BAC;
+  --blue-glow: #3A8FE0;
+  --crimson: #8B1A1A;
+  --crimson-bright: #C42B2B;
+  --silver: #A8A8B8;
+  --silver-dim: #6A6A7A;
+  --white: #F0F0F8;
+  --border: rgba(201, 168, 76, 0.2);
+  --border-bright: rgba(201, 168, 76, 0.5);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--void-black);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--abyss); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--legion-gold); }
+
+/* Selection */
+::selection { background: rgba(201, 168, 76, 0.3); color: var(--gold-bright); }
+
+/* Typography */
+.font-cinzel { font-family: 'Cinzel', serif; }
+.font-cinzel-deco { font-family: 'Cinzel Decorative', serif; }
+
+/* Gold glow utility */
+.gold-glow {
+  text-shadow: 0 0 20px rgba(201, 168, 76, 0.6), 0 0 40px rgba(201, 168, 76, 0.3);
+}
+
+/* Ambient background particle effect */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(42, 107, 172, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(139, 26, 26, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(201, 168, 76, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
