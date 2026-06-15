@@ -349,24 +349,24 @@ export default function SchedulePage() {
             )}
 
             {/* Time grid */}
-            <div style={{ overflowX: 'auto', overflowY: 'auto', maxHeight: '70vh', userSelect: 'none', maxWidth: 600, position: 'relative' }}>
-              <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: 360 }}>
+            <div style={{ overflowY: 'auto', maxHeight: '65vh', userSelect: 'none', width: '100%', position: 'relative' }}>
+              <table style={{ borderCollapse: 'collapse', width: '100%', tableLayout: 'fixed' }}>
                 <thead>
                   <tr>
                     <th style={{
-                      width: 72, padding: '0.6rem 0.5rem',
-                      fontFamily: "'Cinzel', serif", fontSize: '0.8rem',
+                      width: '18%', padding: '0.5rem 0.25rem',
+                      fontFamily: "'Cinzel', serif", fontSize: '0.75rem',
                       color: '#A8A8B8', borderBottom: '2px solid rgba(201,168,76,0.2)',
                       position: 'sticky', top: 0, zIndex: 10,
                       background: '#0F0F1A',
                     }}>시간</th>
                     {DAYS.map((d, i) => (
                       <th key={d} style={{
-                        padding: '0.6rem 0.25rem',
-                        fontFamily: "'Cinzel', serif", fontSize: '0.85rem', fontWeight: 700,
+                        padding: '0.5rem 0',
+                        fontFamily: "'Cinzel', serif", fontSize: '0.8rem', fontWeight: 700,
                         color: i === 3 || i === 4 ? '#C9A84C' : '#A8A8B8',
                         borderBottom: '2px solid rgba(201,168,76,0.2)', textAlign: 'center',
-                        width: 40,
+                        width: `${82/7}%`,
                         position: 'sticky', top: 0, zIndex: 10,
                         background: '#0F0F1A',
                       }}>{d}</th>
@@ -377,10 +377,9 @@ export default function SchedulePage() {
                   {TIME_SLOTS.map(time => (
                     <tr key={time}>
                       <td style={{
-                        padding: '2px 0.6rem', fontFamily: 'monospace', fontSize: '0.85rem',
+                        padding: '1px 0.25rem', fontFamily: 'monospace', fontSize: '0.78rem',
                         fontWeight: 700, color: '#C9A84C', textAlign: 'right',
                         borderRight: '2px solid rgba(201,168,76,0.15)', whiteSpace: 'nowrap',
-                        letterSpacing: '0.05em',
                       }}>{time}</td>
                       {DAY_KEYS.map((day) => {
                         const key = slotKey(day, time);
@@ -392,9 +391,9 @@ export default function SchedulePage() {
                           <td key={day}
                             onMouseDown={() => voterName && handleMouseDown(key)}
                             onMouseEnter={() => voterName && handleMouseEnter(key)}
-                            style={{ padding: '2px', cursor: voterName ? 'pointer' : 'default' }}>
+                            style={{ padding: '1px', cursor: voterName ? 'pointer' : 'default' }}>
                             <div style={{
-                              height: 28, borderRadius: 2,
+                              height: 32, borderRadius: 2,
                               background: isSel
                                 ? dungeonInfo.color
                                 : showHeat

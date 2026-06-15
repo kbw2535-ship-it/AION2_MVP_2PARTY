@@ -14,45 +14,49 @@ export default function Nav() {
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? 'rgba(10,10,15,0.95)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none',
-      borderBottom: scrolled ? '1px solid rgba(201,168,76,0.15)' : 'none',
-      transition: 'all 0.3s ease',
-      padding: '0 2rem',
+      background: scrolled ? 'rgba(10,10,15,0.95)' : 'rgba(10,10,15,0.85)',
+      backdropFilter: 'blur(12px)',
+      borderBottom: '1px solid rgba(201,168,76,0.12)',
+      padding: '0 1rem',
     }}>
       <div style={{
         maxWidth: 1200, margin: '0 auto',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        height: 64,
+        height: 52,
       }}>
+        {/* Logo - 줄바꿈 방지 */}
         <Link href="/" style={{
           fontFamily: "'Cinzel Decorative', serif",
-          fontSize: '1.1rem', color: '#C9A84C', letterSpacing: '0.1em',
+          fontSize: '0.95rem', color: '#C9A84C', letterSpacing: '0.05em',
           textShadow: '0 0 20px rgba(201,168,76,0.5)',
           textDecoration: 'none',
+          whiteSpace: 'nowrap', flexShrink: 0,
         }}>
           MVP레기온
         </Link>
 
-        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        {/* Nav links - 아이콘만 모바일에서 */}
+        <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
           <Link href="/notice" style={{
-            fontFamily: "'Cinzel', serif", fontSize: '0.75rem', letterSpacing: '0.08em',
+            fontFamily: "'Cinzel', serif", fontSize: '0.72rem',
             color: '#A8A8B8', textDecoration: 'none',
-            padding: '0.3rem 0.85rem',
+            padding: '0.35rem 0.6rem',
             border: '1px solid rgba(255,255,255,0.1)', borderRadius: 2,
-            transition: 'all 0.2s',
+            whiteSpace: 'nowrap',
           }}>📢 공지</Link>
           <Link href="/schedule" style={{
-            fontFamily: "'Cinzel', serif", fontSize: '0.75rem', letterSpacing: '0.08em',
+            fontFamily: "'Cinzel', serif", fontSize: '0.72rem',
             color: '#2A6BAC', textDecoration: 'none',
-            padding: '0.3rem 0.85rem',
+            padding: '0.35rem 0.6rem',
             border: '1px solid rgba(42,107,172,0.3)', borderRadius: 2,
-          }}>⏰ 시간투표</Link>
+            whiteSpace: 'nowrap',
+          }}>⏰ 투표</Link>
           <Link href="/admin" style={{
-            fontFamily: "'Cinzel', serif", fontSize: '0.75rem', letterSpacing: '0.08em',
+            fontFamily: "'Cinzel', serif", fontSize: '0.72rem',
             color: '#C9A84C', textDecoration: 'none',
-            padding: '0.3rem 0.85rem',
+            padding: '0.35rem 0.6rem',
             border: '1px solid rgba(201,168,76,0.25)', borderRadius: 2,
+            whiteSpace: 'nowrap',
           }}>⚙ 관리</Link>
         </div>
       </div>
