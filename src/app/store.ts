@@ -1,7 +1,7 @@
 // Simple in-memory store (resets on server restart)
 // For production: replace with Supabase/PlanetScale
 
-import { members as initialMembers, type Member } from '../data';
+import { members as initialMembers, type Member } from './data';
 
 export type DungeonKey = 'purification' | 'chalice';
 
