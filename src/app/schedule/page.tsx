@@ -135,8 +135,18 @@ export default function SchedulePage() {
     await fetchTally();
   };
 
+  // 요일 우선순위: 수=0, 목=1, 금=2, 토=3, 일=4, 월=5, 화=6
+  const DAY_PRIORITY: Record<string, number> = {
+    'WED':0,'THU':1,'FRI':2,'SAT':3,'SUN':4,'MON':5,'TUE':6,
+  };
   const topSlots = Object.entries(tally.tally)
-    .sort((a, b) => b[1] - a[1])
+    .sort((a, b) => {
+      if (b[1] !== a[1]) return b[1] - a[1]; // 투표수 내림차순
+      const dayA = DAY_PRIORITY[a[0].split('-')[0]] ?? 99;
+      const dayB = DAY_PRIORITY[b[0].split('-')[0]] ?? 99;
+      if (dayA !== dayB) return dayA - dayB; // 요일 우선순위 (수~화)
+      return a[0].split('-')[1].localeCompare(b[0].split('-')[1]); // 시간 오름차순
+    })
     .slice(0, 5);
   const maxCount = topSlots[0]?.[1] ?? 1;
   const totalVoters = tally.votes.length;
