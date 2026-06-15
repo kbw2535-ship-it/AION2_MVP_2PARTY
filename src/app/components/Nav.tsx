@@ -3,10 +3,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const navItems = [
-  { id: 'hero',     label: '홈' },
-  { id: 'info',     label: '레기온 정보' },
-  { id: 'members',  label: '공격대원' },
-  { id: 'calendar', label: '일정' },
+  { id: 'hero', label: '홈' },
+  { id: 'info', label: '레기온 정보' },
 ];
 
 export default function Nav() {
@@ -42,17 +40,15 @@ export default function Nav() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         height: 64,
       }}>
-        {/* Logo */}
         <button onClick={() => scrollTo('hero')} style={{
           background: 'none', border: 'none', cursor: 'pointer',
           fontFamily: "'Cinzel Decorative', serif",
           fontSize: '1.1rem', color: '#C9A84C', letterSpacing: '0.1em',
           textShadow: '0 0 20px rgba(201,168,76,0.5)',
         }}>
-          MVP 레기온
+          MVP레기온 성역
         </button>
 
-        {/* Nav links */}
         <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }}>
           {navItems.map(item => (
             <button key={item.id} onClick={() => scrollTo(item.id)} style={{
@@ -69,21 +65,17 @@ export default function Nav() {
           ))}
           <div style={{ width: 1, height: 16, background: 'rgba(201,168,76,0.2)', margin: '0 0.5rem' }} />
           <Link href="/schedule" style={{
-            fontFamily: "'Cinzel', serif",
-            fontSize: '0.75rem', letterSpacing: '0.08em',
+            fontFamily: "'Cinzel', serif", fontSize: '0.75rem', letterSpacing: '0.08em',
             color: '#2A6BAC', textDecoration: 'none',
             padding: '0.3rem 0.85rem',
-            border: '1px solid rgba(42,107,172,0.3)',
-            borderRadius: 2,
+            border: '1px solid rgba(42,107,172,0.3)', borderRadius: 2,
             transition: 'all 0.2s',
           }}>⏰ 시간투표</Link>
           <Link href="/admin" style={{
-            fontFamily: "'Cinzel', serif",
-            fontSize: '0.75rem', letterSpacing: '0.08em',
+            fontFamily: "'Cinzel', serif", fontSize: '0.75rem', letterSpacing: '0.08em',
             color: '#C9A84C', textDecoration: 'none',
             padding: '0.3rem 0.85rem',
-            border: '1px solid rgba(201,168,76,0.25)',
-            borderRadius: 2,
+            border: '1px solid rgba(201,168,76,0.25)', borderRadius: 2,
             transition: 'all 0.2s',
           }}>⚙ 관리</Link>
         </div>

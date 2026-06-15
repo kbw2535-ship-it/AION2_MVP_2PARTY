@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getVotes, upsertVote, deleteVote, tallyVotes, type DungeonKey } from '../../store';
+import { getVotes, upsertVote, deleteVote, deleteAllVotesForVoter, tallyVotes, type DungeonKey } from '../../store';
 
 export async function GET(req: NextRequest) {
   const dungeon = req.nextUrl.searchParams.get('dungeon') as DungeonKey;
@@ -21,7 +21,11 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const body = await req.json();
-  const { voterName, dungeon } = body;
-  deleteVote(voterName, dungeon);
+  const { voterName, dungeon, resetAll } = body;
+  if (resetAll) {
+    deleteAllVotesForVoter(voterName);
+  } else {
+    deleteVote(voterName, dungeon);
+  }
   return NextResponse.json({ ok: true });
 }

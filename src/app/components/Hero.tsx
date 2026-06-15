@@ -49,19 +49,19 @@ export default function Hero() {
         fontSize: '0.85rem', letterSpacing: '0.4em',
         color: '#A8A8B8', marginBottom: '1rem', textTransform: 'uppercase',
       }}>
-        아이온2 · {legionInfo.server} · {legionInfo.faction}
+        아이온2 · {legionInfo.server}
       </p>
 
       <h1 style={{
         fontFamily: "'Cinzel Decorative', serif",
-        fontSize: 'clamp(2.2rem, 6vw, 4rem)',
+        fontSize: 'clamp(1.6rem, 5vw, 3.2rem)',
         color: '#C9A84C',
         textShadow: '0 0 30px rgba(201,168,76,0.5), 0 0 60px rgba(201,168,76,0.2)',
-        letterSpacing: '0.08em',
-        marginBottom: '1.5rem',
+        letterSpacing: '0.06em',
+        marginBottom: '0.5rem',
         textAlign: 'center',
       }}>
-        MVP 레기온
+        MVP레기온 성역
       </h1>
 
       <p style={{
@@ -73,7 +73,7 @@ export default function Hero() {
         textTransform: 'uppercase',
         textAlign: 'center',
       }}>
-        2 파티 공격대 · 레기온 레벨 {legionInfo.level}
+        성역 2파티 공격대 · 레기온 레벨 {legionInfo.level}
       </p>
 
       <p style={{

@@ -13,10 +13,10 @@ export default function Footer() {
         textShadow: '0 0 15px rgba(201,168,76,0.3)',
         marginBottom: '0.75rem',
       }}>
-        MVP 레기온
+        MVP레기온 성역
       </div>
       <p style={{ color: '#3A3A5A', fontSize: '0.75rem', letterSpacing: '0.1em' }}>
-        아이온2 · {legionInfo.server} · {legionInfo.faction}
+        아이온2 · {legionInfo.server} · 성역 2파티
       </p>
       <p style={{ color: '#2A2A3A', fontSize: '0.7rem', marginTop: '1.5rem' }}>
         © 2025 MVP Legion · Made with Next.js · Deployed on Vercel
