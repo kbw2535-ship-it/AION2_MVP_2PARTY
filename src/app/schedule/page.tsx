@@ -20,7 +20,6 @@ function buildSlots() {
       slots.push(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`);
     }
   }
-  // 00:00 (자정)
   slots.push('00:00');
   return slots;
 }
@@ -43,10 +42,10 @@ export default function SchedulePage() {
   const [dragMode, setDragMode] = useState<'add'|'remove'>('add');
   const [viewMode, setViewMode] = useState<'vote'|'result'>('vote');
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showOthers, setShowOthers] = useState(false); // 타인 투표 보기 토글
 
   const dungeonInfo = DUNGEONS.find(d => d.key === dungeon)!;
 
-  // Load member list
   useEffect(() => {
     fetch('/api/members').then(r => r.json()).then(setMemberList);
   }, []);
@@ -59,7 +58,6 @@ export default function SchedulePage() {
 
   useEffect(() => { fetchTally(); }, [fetchTally]);
 
-  // When voter selected, load their existing vote
   useEffect(() => {
     if (!voterName) return;
     const existing = tally.votes.find(v => v.voterName === voterName);
@@ -109,7 +107,6 @@ export default function SchedulePage() {
     setLoading(false);
   };
 
-  // Reset current dungeon only
   const handleResetDungeon = async () => {
     if (!voterName) return;
     await fetch('/api/votes', {
@@ -122,7 +119,6 @@ export default function SchedulePage() {
     await fetchTally();
   };
 
-  // Reset ALL votes for this voter
   const handleResetAll = async () => {
     if (!voterName) return;
     await fetch('/api/votes', {
@@ -141,14 +137,13 @@ export default function SchedulePage() {
     .slice(0, 5);
   const maxCount = topSlots[0]?.[1] ?? 1;
   const totalVoters = tally.votes.length;
-
   const selectedMember = memberList.find(m => m.name === voterName);
 
   return (
     <div style={{ minHeight: '100vh', background: '#0A0A0F', color: '#F0F0F8', paddingBottom: '4rem' }}
       onMouseUp={handleMouseUp}>
 
-      {/* Reset all confirm modal */}
+      {/* Reset confirm modal */}
       {showResetConfirm && (
         <div style={{
           position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.8)',
@@ -172,8 +167,8 @@ export default function SchedulePage() {
               }}>취소</button>
               <button onClick={handleResetAll} style={{
                 background: 'rgba(196,43,43,0.15)', border: '1px solid #C42B2B',
-                color: '#C42B2B', padding: '0.5rem 1.25rem', borderRadius: 2, cursor: 'pointer', fontSize: '0.82rem',
-                fontFamily: "'Cinzel', serif",
+                color: '#C42B2B', padding: '0.5rem 1.25rem', borderRadius: 2, cursor: 'pointer',
+                fontFamily: "'Cinzel', serif", fontSize: '0.82rem',
               }}>전체 삭제</button>
             </div>
           </div>
@@ -182,8 +177,7 @@ export default function SchedulePage() {
 
       {/* Header */}
       <div style={{
-        borderBottom: '1px solid rgba(201,168,76,0.15)',
-        padding: '1rem 2rem',
+        borderBottom: '1px solid rgba(201,168,76,0.15)', padding: '1rem 2rem',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         background: 'rgba(15,15,26,0.9)', backdropFilter: 'blur(12px)',
         position: 'sticky', top: 0, zIndex: 50,
@@ -191,7 +185,7 @@ export default function SchedulePage() {
         <Link href="/" style={{
           fontFamily: "'Cinzel Decorative', serif",
           color: '#C9A84C', textDecoration: 'none', fontSize: '0.9rem', letterSpacing: '0.1em',
-        }}>← MVP 레기온</Link>
+        }}>← MVP레기온</Link>
         <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: '1rem', color: '#F0F0F8', letterSpacing: '0.15em' }}>
           공격 시간 투표
         </h1>
@@ -202,7 +196,7 @@ export default function SchedulePage() {
               border: `1px solid ${viewMode === m ? '#C9A84C' : 'rgba(201,168,76,0.2)'}`,
               color: viewMode === m ? '#C9A84C' : '#6A6A7A',
               padding: '0.3rem 0.8rem', borderRadius: 2, cursor: 'pointer',
-              fontFamily: "'Cinzel', serif", fontSize: '0.7rem', letterSpacing: '0.05em',
+              fontFamily: "'Cinzel', serif", fontSize: '0.7rem',
             }}>{m === 'vote' ? '투표' : '결과'}</button>
           ))}
         </div>
@@ -211,7 +205,7 @@ export default function SchedulePage() {
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2rem' }}>
 
         {/* Dungeon selector */}
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           {DUNGEONS.map(d => (
             <button key={d.key} onClick={() => setDungeon(d.key)} style={{
               background: dungeon === d.key ? d.color + '22' : 'transparent',
@@ -232,55 +226,55 @@ export default function SchedulePage() {
             {/* Member selector */}
             {!voterName ? (
               <div style={{
-                background: 'rgba(26,26,46,0.8)',
-                border: '1px solid rgba(201,168,76,0.2)',
-                borderRadius: 4, padding: '2rem',
-                maxWidth: 600, margin: '0 auto 2rem',
+                background: 'rgba(26,26,46,0.8)', border: '1px solid rgba(201,168,76,0.2)',
+                borderRadius: 4, padding: '2rem', maxWidth: 600, margin: '0 auto 2rem',
               }}>
                 <p style={{
                   fontFamily: "'Cinzel', serif", color: '#C9A84C',
                   marginBottom: '1.25rem', fontSize: '0.9rem', textAlign: 'center', letterSpacing: '0.1em',
                 }}>공격대원을 선택하세요</p>
-                <div style={{
-                  display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
-                  gap: '0.6rem',
-                }}>
-                  {memberList.map(m => (
-                    <button key={m.id} onClick={() => setVoterName(m.name)} style={{
-                      background: 'rgba(10,10,15,0.6)',
-                      border: `1px solid ${classColors[m.class as keyof typeof classColors] || '#3A3A5A'}44`,
-                      borderRadius: 3, padding: '0.6rem 0.75rem',
-                      cursor: 'pointer', textAlign: 'left',
-                      transition: 'all 0.15s',
-                      display: 'flex', alignItems: 'center', gap: '0.5rem',
-                    }}
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = classColors[m.class as keyof typeof classColors] || '#C9A84C';
-                      (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.06)';
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = (classColors[m.class as keyof typeof classColors] || '#3A3A5A') + '44';
-                      (e.currentTarget as HTMLButtonElement).style.background = 'rgba(10,10,15,0.6)';
-                    }}>
-                      <span style={{ fontSize: '1.1rem' }}>{m.avatar}</span>
-                      <div>
-                        <div style={{ fontSize: '0.8rem', color: '#F0F0F8', fontFamily: "'Cinzel', serif" }}>{m.name}</div>
-                        <div style={{ fontSize: '0.65rem', color: classColors[m.class as keyof typeof classColors] || '#6A6A7A', marginTop: '0.1rem' }}>{m.class}</div>
-                      </div>
-                      {tally.votes.find(v => v.voterName === m.name) && (
-                        <span style={{ marginLeft: 'auto', color: '#2A8A4A', fontSize: '0.7rem' }}>✓</span>
-                      )}
-                    </button>
-                  ))}
-                </div>
+                {memberList.length === 0 ? (
+                  <p style={{ color: '#3A3A5A', textAlign: 'center', fontSize: '0.85rem' }}>
+                    등록된 공격대원이 없습니다.<br/>
+                    <Link href="/admin" style={{ color: '#C9A84C' }}>관리자 페이지</Link>에서 추가해 주세요.
+                  </p>
+                ) : (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '0.6rem' }}>
+                    {memberList.map(m => (
+                      <button key={m.id} onClick={() => setVoterName(m.name)} style={{
+                        background: 'rgba(10,10,15,0.6)',
+                        border: `1px solid ${(classColors[m.class as keyof typeof classColors] || '#3A3A5A')}44`,
+                        borderRadius: 3, padding: '0.6rem 0.75rem',
+                        cursor: 'pointer', textAlign: 'left', transition: 'all 0.15s',
+                        display: 'flex', alignItems: 'center', gap: '0.5rem',
+                      }}
+                      onMouseEnter={e => {
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = classColors[m.class as keyof typeof classColors] || '#C9A84C';
+                        (e.currentTarget as HTMLButtonElement).style.background = 'rgba(201,168,76,0.06)';
+                      }}
+                      onMouseLeave={e => {
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = (classColors[m.class as keyof typeof classColors] || '#3A3A5A') + '44';
+                        (e.currentTarget as HTMLButtonElement).style.background = 'rgba(10,10,15,0.6)';
+                      }}>
+                        <span style={{ fontSize: '1.1rem' }}>{m.avatar}</span>
+                        <div>
+                          <div style={{ fontSize: '0.8rem', color: '#F0F0F8', fontFamily: "'Cinzel', serif" }}>{m.name}</div>
+                          <div style={{ fontSize: '0.65rem', color: classColors[m.class as keyof typeof classColors] || '#6A6A7A', marginTop: '0.1rem' }}>{m.class}</div>
+                        </div>
+                        {tally.votes.find(v => v.voterName === m.name) && (
+                          <span style={{ marginLeft: 'auto', color: '#2A8A4A', fontSize: '0.7rem' }}>✓</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             ) : (
               <div style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                background: 'rgba(26,26,46,0.6)',
-                border: '1px solid rgba(201,168,76,0.15)',
-                borderRadius: 4, padding: '0.75rem 1.25rem',
-                marginBottom: '1.5rem', flexWrap: 'wrap', gap: '0.75rem',
+                background: 'rgba(26,26,46,0.6)', border: '1px solid rgba(201,168,76,0.15)',
+                borderRadius: 4, padding: '0.75rem 1.25rem', marginBottom: '1.5rem',
+                flexWrap: 'wrap', gap: '0.75rem',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                   <span style={{ fontSize: '1.2rem' }}>{selectedMember?.avatar}</span>
@@ -294,7 +288,7 @@ export default function SchedulePage() {
                     {submitted && <span style={{ color: '#2A8A4A', marginLeft: '0.5rem', fontSize: '0.8rem' }}>✓ 제출됨</span>}
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                   {submitted && (
                     <button onClick={handleResetDungeon} style={{
                       background: 'none', border: '1px solid rgba(201,168,76,0.2)',
@@ -316,10 +310,29 @@ export default function SchedulePage() {
               </div>
             )}
 
+            {/* Controls row: instruction + others toggle */}
             {voterName && (
-              <p style={{ color: '#6A6A7A', fontSize: '0.78rem', textAlign: 'center', marginBottom: '1rem' }}>
-                참여 가능한 시간대를 드래그하거나 클릭해서 선택 · 선택: <span style={{ color: '#C9A84C' }}>{selected.size}</span>개
-              </p>
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem',
+              }}>
+                <p style={{ color: '#6A6A7A', fontSize: '0.78rem' }}>
+                  드래그하거나 클릭해서 가능 시간 선택 · 선택: <span style={{ color: '#C9A84C' }}>{selected.size}</span>개
+                </p>
+                {/* 타인 투표 보기 토글 */}
+                <button onClick={() => setShowOthers(prev => !prev)} style={{
+                  background: showOthers ? 'rgba(42,107,172,0.15)' : 'transparent',
+                  border: `1px solid ${showOthers ? '#2A6BAC' : 'rgba(255,255,255,0.1)'}`,
+                  color: showOthers ? '#3A8FE0' : '#6A6A7A',
+                  padding: '0.3rem 0.9rem', borderRadius: 2, cursor: 'pointer',
+                  fontSize: '0.72rem', transition: 'all 0.2s',
+                  display: 'flex', alignItems: 'center', gap: '0.4rem',
+                }}>
+                  <span>{showOthers ? '👁' : '🙈'}</span>
+                  타인 투표 {showOthers ? '숨기기' : '보기'}
+                  {totalVoters > 0 && <span style={{ color: '#C9A84C' }}>({totalVoters}명)</span>}
+                </button>
+              </div>
             )}
 
             {/* Time grid */}
@@ -334,11 +347,9 @@ export default function SchedulePage() {
                     }}>시간</th>
                     {DAYS.map((d, i) => (
                       <th key={d} style={{
-                        padding: '0.5rem',
-                        fontFamily: "'Cinzel', serif", fontSize: '0.75rem',
+                        padding: '0.5rem', fontFamily: "'Cinzel', serif", fontSize: '0.75rem',
                         color: i >= 5 ? '#C9A84C' : '#A8A8B8',
-                        borderBottom: '1px solid rgba(201,168,76,0.1)',
-                        textAlign: 'center',
+                        borderBottom: '1px solid rgba(201,168,76,0.1)', textAlign: 'center',
                       }}>{d}</th>
                     ))}
                   </tr>
@@ -356,26 +367,28 @@ export default function SchedulePage() {
                         const isSel = selected.has(key);
                         const count = tally.tally[key] ?? 0;
                         const heat = count > 0 ? count / Math.max(maxCount, 1) : 0;
+                        // 타인 투표 표시 여부
+                        const showHeat = showOthers && count > 0;
                         return (
                           <td key={day}
                             onMouseDown={() => voterName && handleMouseDown(key)}
                             onMouseEnter={() => voterName && handleMouseEnter(key)}
                             style={{ padding: '1px', cursor: voterName ? 'pointer' : 'default' }}>
                             <div style={{
-                              height: 14, borderRadius: 1,
+                              height: 16, borderRadius: 1,
                               background: isSel
                                 ? dungeonInfo.color
-                                : count > 0
+                                : showHeat
                                   ? `rgba(42,107,172,${0.15 + heat * 0.65})`
                                   : 'rgba(255,255,255,0.03)',
                               border: isSel ? `1px solid ${dungeonInfo.color}` : '1px solid transparent',
                               transition: 'background 0.1s', position: 'relative',
                             }}>
-                              {count > 0 && !isSel && (
+                              {showHeat && !isSel && count > 0 && (
                                 <span style={{
                                   position: 'absolute', inset: 0,
                                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                  fontSize: '0.5rem', color: 'rgba(255,255,255,0.7)',
+                                  fontSize: '0.5rem', color: 'rgba(255,255,255,0.8)',
                                 }}>{count}</span>
                               )}
                             </div>
@@ -388,6 +401,7 @@ export default function SchedulePage() {
               </table>
             </div>
 
+            {/* Legend & submit */}
             {voterName && (
               <div style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -397,9 +411,11 @@ export default function SchedulePage() {
                   <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                     <div style={{ width: 12, height: 12, background: dungeonInfo.color, borderRadius: 1 }} /> 내 선택
                   </span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <div style={{ width: 12, height: 12, background: 'rgba(42,107,172,0.5)', borderRadius: 1 }} /> 다른 투표자
-                  </span>
+                  {showOthers && (
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <div style={{ width: 12, height: 12, background: 'rgba(42,107,172,0.5)', borderRadius: 1 }} /> 다른 투표자
+                    </span>
+                  )}
                 </div>
                 <button onClick={handleSubmit} disabled={loading || selected.size === 0} style={{
                   background: selected.size > 0 ? 'rgba(201,168,76,0.15)' : 'rgba(255,255,255,0.03)',
@@ -407,8 +423,7 @@ export default function SchedulePage() {
                   color: selected.size > 0 ? '#C9A84C' : '#3A3A5A',
                   padding: '0.7rem 2.5rem',
                   fontFamily: "'Cinzel', serif", fontSize: '0.85rem', letterSpacing: '0.1em',
-                  borderRadius: 2, cursor: selected.size > 0 ? 'pointer' : 'not-allowed',
-                  transition: 'all 0.2s',
+                  borderRadius: 2, cursor: selected.size > 0 ? 'pointer' : 'not-allowed', transition: 'all 0.2s',
                 }}>
                   {loading ? '저장 중...' : submitted ? '다시 제출' : '투표 제출'}
                 </button>
@@ -467,8 +482,7 @@ export default function SchedulePage() {
                         <div style={{ height: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 2, overflow: 'hidden' }}>
                           <div style={{
                             height: '100%', width: `${pct}%`,
-                            background: idx === 0 ? '#C9A84C' : dungeonInfo.color,
-                            borderRadius: 2,
+                            background: idx === 0 ? '#C9A84C' : dungeonInfo.color, borderRadius: 2,
                           }} />
                         </div>
                       </div>
@@ -493,11 +507,9 @@ export default function SchedulePage() {
                 const m = memberList.find(x => x.name === v.voterName);
                 return (
                   <div key={v.voterName} style={{
-                    background: 'rgba(26,26,46,0.5)',
-                    border: '1px solid rgba(201,168,76,0.1)',
+                    background: 'rgba(26,26,46,0.5)', border: '1px solid rgba(201,168,76,0.1)',
                     borderRadius: 4, padding: '0.6rem 1rem',
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    fontSize: '0.82rem',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.82rem',
                   }}>
                     <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <span>{m?.avatar}</span>
