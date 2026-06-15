@@ -71,7 +71,7 @@ export default function Hero() {
       </p>
 
       {/* Legion image */}
-      <div style={{ marginBottom: '2.5rem', position: 'relative', width: '90%', maxWidth: 420 }}>
+      <div style={{ marginBottom: '2rem', position: 'relative', width: '90%', maxWidth: 420 }}>
         <Image
           src="/main.png"
           alt="MVP레기온 성역"
@@ -85,33 +85,6 @@ export default function Hero() {
           }}
           priority
         />
-      </div>
-
-      {/* Stats row */}
-      <div style={{
-        display: 'flex', gap: '3rem', flexWrap: 'wrap', justifyContent: 'center',
-        borderTop: '1px solid rgba(201,168,76,0.15)',
-        paddingTop: '2rem',
-      }}>
-        {[
-          { value: '2', label: '파티' },
-          { value: legionInfo.level, label: '레기온 레벨' },
-          { value: legionInfo.achievements.length, label: '업적' },
-        ].map(stat => (
-          <div key={stat.label} style={{ textAlign: 'center' }}>
-            <div style={{
-              fontFamily: "'Cinzel', serif",
-              fontSize: '2rem', fontWeight: 700,
-              color: '#C9A84C',
-              textShadow: '0 0 15px rgba(201,168,76,0.4)',
-            }}>
-              {stat.value}
-            </div>
-            <div style={{ fontSize: '0.75rem', letterSpacing: '0.12em', color: '#6A6A7A', marginTop: '0.25rem' }}>
-              {stat.label}
-            </div>
-          </div>
-        ))}
       </div>
 
       <div style={{

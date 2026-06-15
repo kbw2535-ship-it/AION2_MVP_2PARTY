@@ -30,3 +30,17 @@ CREATE POLICY "public_read_members"  ON members FOR SELECT USING (true);
 CREATE POLICY "public_write_members" ON members FOR ALL    USING (true) WITH CHECK (true);
 CREATE POLICY "public_read_votes"    ON votes   FOR SELECT USING (true);
 CREATE POLICY "public_write_votes"   ON votes   FOR ALL    USING (true) WITH CHECK (true);
+
+-- notices 테이블 (공지사항)
+CREATE TABLE IF NOT EXISTS public.notices (
+  id         BIGSERIAL PRIMARY KEY,
+  title      TEXT NOT NULL,
+  content    TEXT NOT NULL DEFAULT '',
+  author     TEXT NOT NULL DEFAULT '레기온장',
+  pinned     BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE public.notices ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "public_all_notices" ON public.notices;
+CREATE POLICY "public_all_notices" ON public.notices FOR ALL USING (true) WITH CHECK (true);

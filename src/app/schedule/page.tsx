@@ -10,8 +10,11 @@ const DUNGEONS: { key: DungeonKey; name: string; color: string; icon: string }[]
   { key: 'chalice',      name: '무스펠의 성배', color: '#C42B2B', icon: '🔥' },
 ];
 
-const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
-const DAY_KEYS = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const DAYS = ['수', '목', '금', '토', '일', '월', '화'];
+const DAY_KEYS = ['WED','THU','FRI','SAT','SUN','MON','TUE'];
+const DAY_KEY_TO_LABEL: Record<string, string> = {
+  'MON':'월','TUE':'화','WED':'수','THU':'목','FRI':'금','SAT':'토','SUN':'일',
+};
 
 function buildSlots() {
   const slots: string[] = [];
@@ -336,7 +339,7 @@ export default function SchedulePage() {
             )}
 
             {/* Time grid */}
-            <div style={{ overflowX: 'auto', userSelect: 'none', maxWidth: 600 }}>
+            <div style={{ overflowX: 'auto', overflowY: 'auto', maxHeight: '70vh', userSelect: 'none', maxWidth: 600, position: 'relative' }}>
               <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: 360 }}>
                 <thead>
                   <tr>
@@ -344,14 +347,18 @@ export default function SchedulePage() {
                       width: 72, padding: '0.6rem 0.5rem',
                       fontFamily: "'Cinzel', serif", fontSize: '0.8rem',
                       color: '#A8A8B8', borderBottom: '2px solid rgba(201,168,76,0.2)',
+                      position: 'sticky', top: 0, zIndex: 10,
+                      background: '#0F0F1A',
                     }}>시간</th>
                     {DAYS.map((d, i) => (
                       <th key={d} style={{
                         padding: '0.6rem 0.25rem',
                         fontFamily: "'Cinzel', serif", fontSize: '0.85rem', fontWeight: 700,
-                        color: i >= 5 ? '#C9A84C' : '#A8A8B8',
+                        color: i === 3 || i === 4 ? '#C9A84C' : '#A8A8B8',
                         borderBottom: '2px solid rgba(201,168,76,0.2)', textAlign: 'center',
                         width: 40,
+                        position: 'sticky', top: 0, zIndex: 10,
+                        background: '#0F0F1A',
                       }}>{d}</th>
                     ))}
                   </tr>
@@ -464,7 +471,7 @@ export default function SchedulePage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '3rem' }}>
                 {topSlots.map(([slot, count], idx) => {
                   const [dayKey, time] = slot.split('-');
-                  const dayLabel = DAYS[DAY_KEYS.indexOf(dayKey)];
+                  const dayLabel = DAY_KEY_TO_LABEL[dayKey] ?? dayKey;
                   const pct = totalVoters > 0 ? (count / totalVoters) * 100 : 0;
                   return (
                     <div key={slot} style={{
