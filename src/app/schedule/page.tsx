@@ -336,20 +336,22 @@ export default function SchedulePage() {
             )}
 
             {/* Time grid */}
-            <div style={{ overflowX: 'auto', userSelect: 'none' }}>
-              <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: 700 }}>
+            <div style={{ overflowX: 'auto', userSelect: 'none', maxWidth: 600 }}>
+              <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: 360 }}>
                 <thead>
                   <tr>
                     <th style={{
-                      width: 64, padding: '0.5rem',
-                      fontFamily: "'Cinzel', serif", fontSize: '0.7rem',
-                      color: '#6A6A7A', borderBottom: '1px solid rgba(201,168,76,0.1)',
+                      width: 72, padding: '0.6rem 0.5rem',
+                      fontFamily: "'Cinzel', serif", fontSize: '0.8rem',
+                      color: '#A8A8B8', borderBottom: '2px solid rgba(201,168,76,0.2)',
                     }}>시간</th>
                     {DAYS.map((d, i) => (
                       <th key={d} style={{
-                        padding: '0.5rem', fontFamily: "'Cinzel', serif", fontSize: '0.75rem',
+                        padding: '0.6rem 0.25rem',
+                        fontFamily: "'Cinzel', serif", fontSize: '0.85rem', fontWeight: 700,
                         color: i >= 5 ? '#C9A84C' : '#A8A8B8',
-                        borderBottom: '1px solid rgba(201,168,76,0.1)', textAlign: 'center',
+                        borderBottom: '2px solid rgba(201,168,76,0.2)', textAlign: 'center',
+                        width: 40,
                       }}>{d}</th>
                     ))}
                   </tr>
@@ -358,30 +360,30 @@ export default function SchedulePage() {
                   {TIME_SLOTS.map(time => (
                     <tr key={time}>
                       <td style={{
-                        padding: '1px 0.5rem', fontFamily: 'monospace', fontSize: '0.65rem',
-                        color: '#3A3A5A', textAlign: 'right',
-                        borderRight: '1px solid rgba(201,168,76,0.08)', whiteSpace: 'nowrap',
+                        padding: '2px 0.6rem', fontFamily: 'monospace', fontSize: '0.85rem',
+                        fontWeight: 700, color: '#C9A84C', textAlign: 'right',
+                        borderRight: '2px solid rgba(201,168,76,0.15)', whiteSpace: 'nowrap',
+                        letterSpacing: '0.05em',
                       }}>{time}</td>
                       {DAY_KEYS.map((day) => {
                         const key = slotKey(day, time);
                         const isSel = selected.has(key);
                         const count = tally.tally[key] ?? 0;
                         const heat = count > 0 ? count / Math.max(maxCount, 1) : 0;
-                        // 타인 투표 표시 여부
                         const showHeat = showOthers && count > 0;
                         return (
                           <td key={day}
                             onMouseDown={() => voterName && handleMouseDown(key)}
                             onMouseEnter={() => voterName && handleMouseEnter(key)}
-                            style={{ padding: '1px', cursor: voterName ? 'pointer' : 'default' }}>
+                            style={{ padding: '2px', cursor: voterName ? 'pointer' : 'default' }}>
                             <div style={{
-                              height: 16, borderRadius: 1,
+                              height: 28, borderRadius: 2,
                               background: isSel
                                 ? dungeonInfo.color
                                 : showHeat
                                   ? `rgba(42,107,172,${0.15 + heat * 0.65})`
-                                  : 'rgba(255,255,255,0.03)',
-                              border: isSel ? `1px solid ${dungeonInfo.color}` : '1px solid transparent',
+                                  : 'rgba(255,255,255,0.04)',
+                              border: isSel ? `2px solid ${dungeonInfo.color}` : '1px solid rgba(255,255,255,0.06)',
                               transition: 'background 0.1s', position: 'relative',
                             }}>
                               {showHeat && !isSel && count > 0 && (
