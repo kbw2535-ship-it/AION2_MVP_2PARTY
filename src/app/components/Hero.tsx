@@ -1,3 +1,5 @@
+'use client';
+import Image from 'next/image';
 import { legionInfo } from '../data';
 
 export default function Hero() {
@@ -36,7 +38,6 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* Subtitle */}
       <p style={{
         fontFamily: "'Cinzel', serif",
         fontSize: '0.85rem', letterSpacing: '0.4em',
@@ -45,7 +46,6 @@ export default function Hero() {
         아이온2 · {legionInfo.server}
       </p>
 
-      {/* Main title */}
       <h1 style={{
         fontFamily: "'Cinzel Decorative', serif",
         fontSize: 'clamp(1.6rem, 5vw, 3.2rem)',
@@ -70,19 +70,20 @@ export default function Hero() {
         성역 2파티
       </p>
 
-      {/* Legion image — 파일명을 실제 PNG 파일명으로 교체하세요 */}
-      <div style={{ marginBottom: '2.5rem' }}>
-        <img
+      {/* Legion image */}
+      <div style={{ marginBottom: '2.5rem', position: 'relative', width: '90%', maxWidth: 420 }}>
+        <Image
           src="/main.png"
           alt="MVP레기온 성역"
+          width={420}
+          height={280}
           style={{
-            maxWidth: 420, width: '90%',
+            width: '100%', height: 'auto',
             borderRadius: 4,
             border: '1px solid rgba(201,168,76,0.2)',
             boxShadow: '0 0 40px rgba(201,168,76,0.15)',
-            display: 'block',
           }}
-          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          priority
         />
       </div>
 
@@ -93,7 +94,6 @@ export default function Hero() {
         paddingTop: '2rem',
       }}>
         {[
-          { value: legionInfo.totalMembers, label: '공격대원' },
           { value: '2', label: '파티' },
           { value: legionInfo.level, label: '레기온 레벨' },
           { value: legionInfo.achievements.length, label: '업적' },
