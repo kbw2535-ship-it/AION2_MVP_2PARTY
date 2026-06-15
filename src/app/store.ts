@@ -36,7 +36,8 @@ export function getVotes(dungeon: DungeonKey) {
 }
 
 export function getAllVoterNames() {
-  return [...new Set(voteStore.map(v => v.voterName))];
+  const seen: Record<string, boolean> = {};
+  return voteStore.map(v => v.voterName).filter(n => seen[n] ? false : (seen[n] = true));
 }
 
 export function upsertVote(vote: Vote) {
