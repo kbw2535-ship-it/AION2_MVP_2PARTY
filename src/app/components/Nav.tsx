@@ -24,38 +24,42 @@ export default function Nav() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         height: 52,
       }}>
-        {/* Logo - 줄바꿈 방지 */}
         <Link href="/" style={{
           fontFamily: "'Cinzel Decorative', serif",
           fontSize: '0.95rem', color: '#C9A84C', letterSpacing: '0.05em',
           textShadow: '0 0 20px rgba(201,168,76,0.5)',
-          textDecoration: 'none',
-          whiteSpace: 'nowrap', flexShrink: 0,
+          textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0,
         }}>
           MVP레기온
         </Link>
 
-        {/* Nav links - 아이콘만 모바일에서 */}
-        <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center', flexWrap: 'nowrap' }}>
           <Link href="/notice" style={{
-            fontFamily: "'Cinzel', serif", fontSize: '0.72rem',
+            fontFamily: "'Cinzel', serif", fontSize: '0.7rem',
             color: '#A8A8B8', textDecoration: 'none',
-            padding: '0.35rem 0.6rem',
+            padding: '0.3rem 0.5rem',
             border: '1px solid rgba(255,255,255,0.1)', borderRadius: 2,
             whiteSpace: 'nowrap',
           }}>📢 공지</Link>
+          <Link href="/party" style={{
+            fontFamily: "'Cinzel', serif", fontSize: '0.7rem',
+            color: '#C9A84C', textDecoration: 'none',
+            padding: '0.3rem 0.5rem',
+            border: '1px solid rgba(201,168,76,0.3)', borderRadius: 2,
+            whiteSpace: 'nowrap',
+          }}>⚔️ 파티구성</Link>
           <Link href="/schedule" style={{
-            fontFamily: "'Cinzel', serif", fontSize: '0.72rem',
+            fontFamily: "'Cinzel', serif", fontSize: '0.7rem',
             color: '#2A6BAC', textDecoration: 'none',
-            padding: '0.35rem 0.6rem',
+            padding: '0.3rem 0.5rem',
             border: '1px solid rgba(42,107,172,0.3)', borderRadius: 2,
             whiteSpace: 'nowrap',
           }}>⏰ 투표</Link>
           <Link href="/admin" style={{
-            fontFamily: "'Cinzel', serif", fontSize: '0.72rem',
-            color: '#C9A84C', textDecoration: 'none',
-            padding: '0.35rem 0.6rem',
-            border: '1px solid rgba(201,168,76,0.25)', borderRadius: 2,
+            fontFamily: "'Cinzel', serif", fontSize: '0.7rem',
+            color: '#6A6A7A', textDecoration: 'none',
+            padding: '0.3rem 0.5rem',
+            border: '1px solid rgba(255,255,255,0.1)', borderRadius: 2,
             whiteSpace: 'nowrap',
           }}>⚙ 관리</Link>
         </div>
